@@ -8,7 +8,7 @@ namespace AstraPeak
     /// climbing companion:
     /// <list type="bullet">
     /// <item>she accompanies YOUR scout (<c>Character.localCharacter</c>), never another player's;</item>
-    /// <item>she is sized to your scout (she looked small at her own height);</item>
+    /// <item>she is twice her own size (PEAK's world is built bigger: she looked small);</item>
     /// <item>she walks the mountain on its terrain, waits at the foot of a wall while you climb, and
     /// LEAPS up to you once you stand on top, instead of appearing out of nowhere
     /// (<see cref="MountainBrain"/>);</item>
@@ -23,7 +23,9 @@ namespace AstraPeak
         void Awake()
         {
             var astra = AstraSdk.Register(MyPluginInfo.PLUGIN_GUID, "PEAK");
-            astra.Defaults.MatchPlayerHeight = 0.95f;
+            // Twice her own size: PEAK's world is built bigger than metres (the owner's call after
+            // the first runs, 2026-10-06). The player's own Astra.Scale in the config still wins.
+            astra.Defaults.Scale = 2f;
             // PEAK's walkable world: its terrain, its map pieces and props; never the scouts or ropes.
             astra.Defaults.GroundLayers = "Terrain,Map,Default";
             // A mountain is tall: she leaps after you rather than appear, so let her be far first.

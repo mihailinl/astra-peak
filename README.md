@@ -5,7 +5,7 @@ with you. It runs on the Astra Unity foundation (`astra-bepinex`), which already
 game, lit by its sun and hidden by its rocks. This plugin adds what is specific to PEAK:
 
 - she accompanies **your** scout (`Character.localCharacter`), never another player's;
-- she is **sized to your scout** (95% of its height) instead of her own, which looked small here;
+- she is **twice her own size** here (PEAK's world is built bigger; `Astra.Scale` in the config overrides it);
 - she **walks the mountain** on its terrain, **waits at the foot of a wall** while you climb a wall,
   a rope or a vine, and **leaps up to you** in a real arc once you stand on top, instead of
   appearing out of nowhere;

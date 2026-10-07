@@ -20,6 +20,9 @@ namespace AstraPeak
             // head-height (of the pose of the moment) below the head.
             float headHeight = d.targetHeadHeight > 0.1f ? d.targetHeadHeight : 1.6f;
             var feet = d.isGrounded ? d.groundPos : c.Head + Vector3.down * headHeight;
+            // The scout's height is its head above the GROUND it stands on (targetHeadHeight is above
+            // the rig's root, which is not the feet).
+            float standing = c.Head.y - d.groundPos.y;
             return new PlayerInfo
             {
                 Feet = feet,
@@ -28,7 +31,7 @@ namespace AstraPeak
                 Grounded = d.isGrounded && !Climbing,
                 // PEAK's head height is the head of the pose of the moment (lower in a crouch,
                 // different in a jump): it is the scout's height only while it STANDS.
-                Height = d.isGrounded && !d.isCrouching && !Climbing ? headHeight * (1 + HeadTop) : 0,
+                Height = d.isGrounded && !d.isCrouching && !Climbing && standing > 0.2f ? standing * (1 + HeadTop) : 0,
             };
         }
 
