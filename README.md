@@ -15,6 +15,18 @@ game, lit by its sun and hidden by its rocks. This plugin adds what is specific 
 Only you see her; your co-op friends do not. PEAK has no anti-cheat; never use BepInEx mods in
 games that have one.
 
+## Install with Astra
+
+Paste this repository's address into Astra's **Games** tab:
+
+```
+https://github.com/mihailinl/astra-peak
+```
+
+Astra fetches the latest release's `astra-gi.zip`, installs it into a profile of its own and
+launches PEAK with it when you press Play — steps 1-4 below, done for you, including the Proton
+override. Integrations are not reviewed by Astra and are always shown as **Experimental**.
+
 ## Install (by hand, until the Astra marketplace installs it)
 
 1. BepInEx 5 (x64) in the PEAK folder, from a mod manager ("BepInExPack" for PEAK) or by hand.
@@ -27,12 +39,28 @@ back when it closes.
 
 ## Build
 
+No game folder needed: every game type (`Character`, `CharacterData`) is reached by NAME at run
+time through the Astra SDK's `Astra.Sdk.GameType`, never compiled against — this builds from
+public packages alone (the Astra SDK, `BepInEx.Core`, `UnityEngine.Modules`).
+
 ```bash
-dotnet build -c Release -p:GameDir="/path/to/PEAK"
+dotnet build -c Release
 ```
 
-You can also put the path in `GameDir.props.user` (git ignores it). The game's assemblies are
-referenced to compile and are never shipped.
+A tagged push (`v*`) builds and publishes `astra-gi.zip` to a GitHub release through
+`.github/workflows/release.yml`. To build the same zip locally (no CI, for testing the layout):
+
+```bash
+# once: unpack the pinned BepInEx release beside this repo's own Release build
+curl -LO https://github.com/BepInEx/BepInEx/releases/download/v5.4.23.5/BepInEx_win_x64_5.4.23.5.zip
+unzip BepInEx_win_x64_5.4.23.5.zip -d bepinex-dist
+# build the Astra foundation once (astra-bepinex/tools/pack.sh), then:
+tools/make-astra-gi.sh
+```
+
+To build against a local, unreleased Astra SDK before it is on nuget.org: add a
+`GameDir.props.user` (git-ignored) setting `RestoreAdditionalProjectSources` to the SDK's local
+feed path, or uncomment the `astra-local` source in `nuget.config`.
 
 ## Contributing
 
