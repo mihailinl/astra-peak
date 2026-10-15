@@ -21,6 +21,10 @@ env:
 
   # The Astra SDK (a compile-only reference) comes from the foundation's release until it is on
   # nuget.org: the exact package packages.lock.json pins by content hash, digest-checked here too.
+  # TODO(0.8.0): this integration needs SDK 0.8.0 (CaptureWhile; the project pins [0.8.0,1)). When
+  # astra-bepinex v0.8.0 is released: point ASTRA_SDK_URL, its file name below and FOUNDATION_ASSET_URL
+  # at v0.8.0, put in their SHA-256s, and regenerate packages.lock.json from the released package
+  # (its 0.8.0 hash today is a local pre-release build's). Until then this workflow cannot build.
   ASTRA_SDK_URL: "https://github.com/mihailinl/astra-bepinex/releases/download/v0.5.0/Astra.Unity.Sdk.0.5.0.nupkg"
   ASTRA_SDK_SHA256: "17a3ac630ee3d602093d51dd658f8a94f797c0fcb15bc3a92d7027396d5d27ba"
 

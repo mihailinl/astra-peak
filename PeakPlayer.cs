@@ -85,12 +85,14 @@ namespace AstraPeak
         /// The scout's bones as VRM humanoid bones, by transform name under its Animator: the scouts
         /// are a Generic rig (no Unity Avatar), so the capture is told which bone is which. The
         /// pelvis-side bones (<c>Hip_L</c>/<c>Hip_R</c>) and the hand's <c>Hand_Upper_*</c> sit between
-        /// mapped bones and are folded into them; the scouts have no neck and no ring finger. The
+        /// mapped bones and are folded into them; so is <c>AimJoint</c> (between <c>Mid</c> and
+        /// <c>Torso</c>), which the game turns with where the player looks — never a humanoid bone of
+        /// its own. The scouts have no neck and no ring finger. The
         /// game's names are not symmetric for the thumbs (<c>Thumb_1_L</c>, <c>Thumb_R_1</c>).
         /// </summary>
         public static readonly Dictionary<string, string> Bones = new Dictionary<string, string>
         {
-            ["hips"] = "Hip", ["spine"] = "Mid", ["chest"] = "AimJoint", ["upperChest"] = "Torso", ["head"] = "Head",
+            ["hips"] = "Hip", ["spine"] = "Mid", ["chest"] = "Torso", ["head"] = "Head",
             ["leftUpperLeg"] = "Leg_L", ["leftLowerLeg"] = "Knee_L", ["leftFoot"] = "Foot_L", ["leftToes"] = "S_Toe_1_L",
             ["rightUpperLeg"] = "Leg_R", ["rightLowerLeg"] = "Knee_R", ["rightFoot"] = "Foot_R", ["rightToes"] = "S_Toe_1_R",
             ["leftShoulder"] = "S_Shoulder_L", ["leftUpperArm"] = "Arm_L", ["leftLowerArm"] = "Elbow_L", ["leftHand"] = "Hand_L",

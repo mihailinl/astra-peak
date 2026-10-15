@@ -13,9 +13,14 @@ game, lit by its sun and hidden by its rocks. This plugin adds what is specific 
   like, so no code change is needed when one ships a climbing animation;
 - **PEAK's own climb, for her** (opt-in): switch capture on for PEAK in Astra (Parameters › Games),
   then climb. Each climb of 1.5 to 60 seconds (at most three per game run) is recorded from your scout
-  and offered to Astra, which asks you whether to use it for `climbing` ([Use for climbing] / [Keep] /
-  [Discard]). With capture off nothing is recorded. A captured clip is PEAK's animation: it never
-  leaves your machine, and Astra will not export it.
+  — from a moment after you grab on, so the jump at the wall is not in it, and without your looking
+  around — and offered to Astra, which asks you whether to use it for `climbing` ([Use for climbing]
+  / [Keep] / [Discard]). With capture off nothing is recorded. An Astra that tells a running game
+  (`capture-live`) starts or stops capturing the moment you flip the switch, and switching it off
+  mid-climb keeps nothing of that climb; with an older Astra the switch takes effect from the
+  game's next start. A captured clip is PEAK's animation: it never leaves your machine, and Astra
+  will not export it. Needs the Astra foundation 0.8.0 or newer (beside an older one this plugin is
+  not loaded; BepInEx says so in its log).
 
 Only you see her; your co-op friends do not. PEAK has no anti-cheat; never use BepInEx mods in
 games that have one.
@@ -71,18 +76,19 @@ tools/make-astra-gi.sh
 
 ### Build against a local SDK
 
-The capture (`CaptureWhile`) and the parameter declaration (`DeclareParam`) need the Astra SDK
-**0.7.0**, which is not released yet; the release workflow still pins the released SDK, so a CI build
-of this branch fails until 0.7.0 is out and the pin moves. Build it locally against astra-bepinex's
-own pack, in a NuGet cache of its own (a `-dev` package must never meet a cached one of the same
-version) and without touching `packages.lock.json`:
+The capture (`CaptureWhile`) needs the Astra SDK **0.8.0** (the project pins `[0.8.0,1)`), which
+is not released yet: the release workflow's SDK and foundation lines are TODOs until it is, and
+`packages.lock.json` was made against a local pre-release build of 0.8.0 — regenerate it from the
+released package (`dotnet restore --force-evaluate`) when the workflow moves. Until then, build
+locally against astra-bepinex's own pack, in a NuGet cache of its own (a `-dev` package must never
+meet a cached one of the same version) and without touching `packages.lock.json`:
 
 ```bash
-# in astra-bepinex: build the foundation and the SDK package (artifacts/nuget/Astra.Unity.Sdk.0.7.0-dev.nupkg)
+# in astra-bepinex: build the foundation and the SDK package (artifacts/nuget/Astra.Unity.Sdk.0.8.0-dev.nupkg)
 tools/pack.sh
 # here:
 NUGET_PACKAGES=$PWD/.nuget-local-cache dotnet build -c Release \
-  -p:AstraSdkVersion=0.7.0-dev \
+  -p:AstraSdkVersion=0.8.0-dev \
   -p:RestoreAdditionalProjectSources=<astra-bepinex>/artifacts/nuget \
   -p:NuGetLockFilePath=$PWD/obj/local.lock.json
 ```

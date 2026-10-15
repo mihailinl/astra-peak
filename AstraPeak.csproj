@@ -20,10 +20,11 @@
     <Version>0.2.0</Version>
     <SteamAppId>3527290</SteamAppId>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-    <!-- The SDK this builds against. CaptureWhile and DeclareParam need 0.7.0, which is not
-         released yet: until it is, build locally against astra-bepinex's own pack (README, "Build
-         against a local SDK"); CI stays on the released SDK it pins. -->
-    <AstraSdkVersion Condition="'$(AstraSdkVersion)' == ''">[0.5.0,1)</AstraSdkVersion>
+    <!-- The SDK this builds against: CaptureWhile is new in 0.8.0 (DeclareParam in 0.7.0). Built
+         against it, AstraSdk.Dependency makes BepInEx refuse to load this plugin beside an older
+         foundation. 0.8.0 is not released yet (README, "Build against a local SDK"); a local build
+         may pass -p:AstraSdkVersion=0.8.0-dev. -->
+    <AstraSdkVersion Condition="'$(AstraSdkVersion)' == ''">[0.8.0,1)</AstraSdkVersion>
   </PropertyGroup>
   <!-- This machine only (git ignores it): the Astra SDK's LOCAL feed, for building against an
        unreleased foundation/SDK before it reaches NuGet. Never a game folder — this project no
