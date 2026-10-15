@@ -17,7 +17,7 @@
     <Nullable>disable</Nullable>
     <BepInExPluginGuid>astra.peak</BepInExPluginGuid>
     <BepInExPluginName>Astra for PEAK</BepInExPluginName>
-    <Version>0.2.0</Version>
+    <Version>0.3.0</Version>
     <SteamAppId>3527290</SteamAppId>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     <!-- The SDK this builds against: CaptureWhile is new in 0.8.0 (DeclareParam in 0.7.0). Built
