@@ -6,7 +6,7 @@
         "type": "Direct",
         "requested": "[0.8.0, 1.0.0)",
         "resolved": "0.8.0",
-        "contentHash": "iFQ1l1RWyPm1grBP1YIumMQPplartaDxsmsMoD+rRpdvqROEj33hCNQKgTrEwQI/FTD3SNSFt/MdFplTEUJrug=="
+        "contentHash": "jn5M7O24Vmc01AqQZVo5LYJb1pJCHyyLZsq8d2GNcXuZbM8ALKat2CKhHs87NP93TzRauby2S/AHFx99MZ2cwA=="
       },
       "BepInEx.Core": {
         "type": "Direct",

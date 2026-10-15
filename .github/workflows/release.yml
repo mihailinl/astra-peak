@@ -21,12 +21,9 @@ env:
 
   # The Astra SDK (a compile-only reference) comes from the foundation's release until it is on
   # nuget.org: the exact package packages.lock.json pins by content hash, digest-checked here too.
-  # TODO(0.8.0): this integration needs SDK 0.8.0 (CaptureWhile; the project pins [0.8.0,1)). When
-  # astra-bepinex v0.8.0 is released: point ASTRA_SDK_URL, its file name below and FOUNDATION_ASSET_URL
-  # at v0.8.0, put in their SHA-256s, and regenerate packages.lock.json from the released package
-  # (its 0.8.0 hash today is a local pre-release build's). Until then this workflow cannot build.
-  ASTRA_SDK_URL: "https://github.com/mihailinl/astra-bepinex/releases/download/v0.5.0/Astra.Unity.Sdk.0.5.0.nupkg"
-  ASTRA_SDK_SHA256: "17a3ac630ee3d602093d51dd658f8a94f797c0fcb15bc3a92d7027396d5d27ba"
+  # This integration needs SDK 0.8.0 (CaptureWhile; the project pins [0.8.0,1)).
+  ASTRA_SDK_URL: "https://github.com/mihailinl/astra-bepinex/releases/download/v0.8.0/Astra.Unity.Sdk.0.8.0.nupkg"
+  ASTRA_SDK_SHA256: "f2d6c8f843655288f78b16c3cb86f38684eb039e10c87cdd6053208fca179033"
 
   BEPINEX_VERSION: "5.4.23.5"
   BEPINEX_ZIP_URL: "https://github.com/BepInEx/BepInEx/releases/download/v5.4.23.5/BepInEx_win_x64_5.4.23.5.zip"
@@ -34,9 +31,9 @@ env:
 
   # The foundation's Mono DLLs come from its runner release ("Astra for any Unity game"), whose zip
   # root holds BepInEx/plugins/Astra/ — exactly the layout tools/make-astra-gi.sh reads. Bump both
-  # lines (and ASTRA_BEPINEX_REF above) together when this integration moves to a newer foundation.
-  FOUNDATION_ASSET_URL: "https://github.com/mihailinl/astra-bepinex/releases/download/v0.5.0/astra-gi.zip"
-  FOUNDATION_ASSET_SHA256: "7b58b749517c2ed745b2942f2e860df5f4e5af729185371a7a7aebcb9f25ae67"
+  # lines together when this integration moves to a newer foundation.
+  FOUNDATION_ASSET_URL: "https://github.com/mihailinl/astra-bepinex/releases/download/v0.8.0/astra-gi.zip"
+  FOUNDATION_ASSET_SHA256: "b0fdb6780cdb57582f99f954f17dc31c6a3deb5066355817192e308929082fa6"
 
 jobs:
   release:
@@ -52,8 +49,8 @@ jobs:
       - name: Download the Astra SDK package (digest-pinned)
         run: |
           mkdir -p "${{ github.workspace }}/nuget-local"
-          curl -sSL -o "${{ github.workspace }}/nuget-local/Astra.Unity.Sdk.0.5.0.nupkg" "${{ env.ASTRA_SDK_URL }}"
-          echo "${{ env.ASTRA_SDK_SHA256 }}  ${{ github.workspace }}/nuget-local/Astra.Unity.Sdk.0.5.0.nupkg" | sha256sum -c -
+          curl -sSL -o "${{ github.workspace }}/nuget-local/Astra.Unity.Sdk.0.8.0.nupkg" "${{ env.ASTRA_SDK_URL }}"
+          echo "${{ env.ASTRA_SDK_SHA256 }}  ${{ github.workspace }}/nuget-local/Astra.Unity.Sdk.0.8.0.nupkg" | sha256sum -c -
 
       - name: Add the local SDK feed
         run: dotnet nuget add source "${{ github.workspace }}/nuget-local" -n astra-local

@@ -74,27 +74,9 @@ unzip BepInEx_win_x64_5.4.23.5.zip -d bepinex-dist
 tools/make-astra-gi.sh
 ```
 
-### Build against a local SDK
-
-The capture (`CaptureWhile`) needs the Astra SDK **0.8.0** (the project pins `[0.8.0,1)`), which
-is not released yet: the release workflow's SDK and foundation lines are TODOs until it is, and
-`packages.lock.json` was made against a local pre-release build of 0.8.0 — regenerate it from the
-released package (`dotnet restore --force-evaluate`) when the workflow moves. Until then, build
-locally against astra-bepinex's own pack, in a NuGet cache of its own (a `-dev` package must never
-meet a cached one of the same version) and without touching `packages.lock.json`:
-
-```bash
-# in astra-bepinex: build the foundation and the SDK package (artifacts/nuget/Astra.Unity.Sdk.0.8.0-dev.nupkg)
-tools/pack.sh
-# here:
-NUGET_PACKAGES=$PWD/.nuget-local-cache dotnet build -c Release \
-  -p:AstraSdkVersion=0.8.0-dev \
-  -p:RestoreAdditionalProjectSources=<astra-bepinex>/artifacts/nuget \
-  -p:NuGetLockFilePath=$PWD/obj/local.lock.json
-```
-
-The game needs the same foundation: copy `artifacts/foundation-mono/BepInEx/plugins/Astra/` from
-astra-bepinex over the one in your BepInEx profile.
+The capture (`CaptureWhile`) needs the Astra SDK **0.8.0** (the project pins `[0.8.0,1)`), released
+as part of astra-bepinex v0.8.0: the release workflow and `packages.lock.json` build against that
+published package.
 
 ## Contributing
 
