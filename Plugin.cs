@@ -40,8 +40,9 @@ namespace AstraPeak
             astra.UseBrain(new MountainBrain());
             astra.OnFrame(f => f.Params.Set("climbing", PeakPlayer.Climbing));
             // The scout's own climb, as her move for `climbing`: recorded only while the player has
-            // capture switched on for PEAK in Astra. The scouts are a Generic rig, so the bones are named.
-            astra.CaptureWhile("climbing", "climb", () => PeakPlayer.Animator, PeakPlayer.Bones);
+            // capture switched on for PEAK in Astra. The scouts are a Generic rig, so the bones are
+            // named; AimJoint turns the upper body with where the player looks, so it is held still.
+            astra.CaptureWhile("climbing", "climb", () => PeakPlayer.Animator, PeakPlayer.Bones, still: PeakPlayer.Still);
             Logger.LogInfo("Astra will climb PEAK with you");
         }
     }

@@ -81,14 +81,19 @@ namespace AstraPeak
             }
         }
 
+        /// <summary>The scout's bones the game turns with the camera — held still in a capture, so the
+        /// player's looking around is not in the clip.</summary>
+        public static readonly string[] Still = { "AimJoint" };
+
         /// <summary>
         /// The scout's bones as VRM humanoid bones, by transform name under its Animator: the scouts
         /// are a Generic rig (no Unity Avatar), so the capture is told which bone is which. The
         /// pelvis-side bones (<c>Hip_L</c>/<c>Hip_R</c>) and the hand's <c>Hand_Upper_*</c> sit between
-        /// mapped bones and are folded into them; so is <c>AimJoint</c> (between <c>Mid</c> and
-        /// <c>Torso</c>), which the game turns with where the player looks — never a humanoid bone of
-        /// its own. The scouts have no neck and no ring finger. The
-        /// game's names are not symmetric for the thumbs (<c>Thumb_1_L</c>, <c>Thumb_R_1</c>).
+        /// mapped bones and are folded into them. <c>AimJoint</c> (between <c>Mid</c> and <c>Torso</c>)
+        /// is the game's aim: it turns the upper body with where the player looks, so it is never a
+        /// humanoid bone and is HELD STILL (<see cref="Still"/>). The scouts have no neck and no ring
+        /// finger. The game's names are not symmetric for the thumbs (<c>Thumb_1_L</c>,
+        /// <c>Thumb_R_1</c>).
         /// </summary>
         public static readonly Dictionary<string, string> Bones = new Dictionary<string, string>
         {
