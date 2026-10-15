@@ -10,10 +10,21 @@ game, lit by its sun and hidden by its rocks. This plugin adds what is specific 
   a rope or a vine, and **leaps up to you** in a real arc once you stand on top, instead of
   appearing out of nowhere;
 - she tells her animation set the raw fact `climbing`. An animation pack decides what that looks
-  like, so no code change is needed when one ships a climbing animation.
+  like, so no code change is needed when one ships a climbing animation;
+- **PEAK's own climb, for her** (opt-in): switch capture on for PEAK in Astra (Parameters › Games),
+  then climb. Each climb of 1.5 to 60 seconds (at most three per game run) is recorded from your scout
+  and offered to Astra, which asks you whether to use it for `climbing` ([Use for climbing] / [Keep] /
+  [Discard]). With capture off nothing is recorded. A captured clip is PEAK's animation: it never
+  leaves your machine, and Astra will not export it.
 
 Only you see her; your co-op friends do not. PEAK has no anti-cheat; never use BepInEx mods in
 games that have one.
+
+## Parameters
+
+| name | type | meaning |
+|---|---|---|
+| `climbing` | bool | your scout is on a wall, a rope or a vine |
 
 ## Install with Astra
 
@@ -58,9 +69,26 @@ unzip BepInEx_win_x64_5.4.23.5.zip -d bepinex-dist
 tools/make-astra-gi.sh
 ```
 
-To build against a local, unreleased Astra SDK before it is on nuget.org: add a
-`GameDir.props.user` (git-ignored) setting `RestoreAdditionalProjectSources` to the SDK's local
-feed path, or uncomment the `astra-local` source in `nuget.config`.
+### Build against a local SDK
+
+The capture (`CaptureWhile`) and the parameter declaration (`DeclareParam`) need the Astra SDK
+**0.7.0**, which is not released yet; the release workflow still pins the released SDK, so a CI build
+of this branch fails until 0.7.0 is out and the pin moves. Build it locally against astra-bepinex's
+own pack, in a NuGet cache of its own (a `-dev` package must never meet a cached one of the same
+version) and without touching `packages.lock.json`:
+
+```bash
+# in astra-bepinex: build the foundation and the SDK package (artifacts/nuget/Astra.Unity.Sdk.0.7.0-dev.nupkg)
+tools/pack.sh
+# here:
+NUGET_PACKAGES=$PWD/.nuget-local-cache dotnet build -c Release \
+  -p:AstraSdkVersion=0.7.0-dev \
+  -p:RestoreAdditionalProjectSources=<astra-bepinex>/artifacts/nuget \
+  -p:NuGetLockFilePath=$PWD/obj/local.lock.json
+```
+
+The game needs the same foundation: copy `artifacts/foundation-mono/BepInEx/plugins/Astra/` from
+astra-bepinex over the one in your BepInEx profile.
 
 ## Contributing
 

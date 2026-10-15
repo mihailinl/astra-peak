@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Astra.Sdk;
 using UnityEngine;
 
@@ -16,8 +17,11 @@ namespace AstraPeak
 
         static readonly GameType CharacterType = GameType.Find("Character");
         static readonly GameType CharacterDataType = GameType.Find("CharacterData");
+        static readonly GameType CharacterRefsType = GameType.Find("CharacterRefs");
 
         static readonly Member<object> DataMember = CharacterType.Member<object>("data");
+        static readonly Member<object> RefsMember = CharacterType.Member<object>("refs");
+        static readonly Member<Animator> AnimatorMember = CharacterRefsType.Member<Animator>("animator");
         static readonly Member<Vector3> Head = CharacterType.Member<Vector3>("Head");
         static readonly Member<bool> Dead = CharacterDataType.Member<bool>("dead");
         static readonly Member<float> TargetHeadHeight = CharacterDataType.Member<float>("targetHeadHeight");
@@ -63,6 +67,43 @@ namespace AstraPeak
                 Height = grounded && !IsCrouching.Get(d) && !climbing && standing > 0.2f ? standing * (1 + HeadTop) : 0,
             };
         }
+
+        /// <summary>Your scout's Animator (<c>Character.refs.animator</c>, on its <c>Scout</c> object), or
+        /// null when there is no scout.</summary>
+        public static Animator Animator
+        {
+            get
+            {
+                var c = LocalCharacter;
+                if (c == null) return null;
+                var refs = RefsMember.Get(c);
+                return refs == null ? null : AnimatorMember.Get(refs);
+            }
+        }
+
+        /// <summary>
+        /// The scout's bones as VRM humanoid bones, by transform name under its Animator: the scouts
+        /// are a Generic rig (no Unity Avatar), so the capture is told which bone is which. The
+        /// pelvis-side bones (<c>Hip_L</c>/<c>Hip_R</c>) and the hand's <c>Hand_Upper_*</c> sit between
+        /// mapped bones and are folded into them; the scouts have no neck and no ring finger. The
+        /// game's names are not symmetric for the thumbs (<c>Thumb_1_L</c>, <c>Thumb_R_1</c>).
+        /// </summary>
+        public static readonly Dictionary<string, string> Bones = new Dictionary<string, string>
+        {
+            ["hips"] = "Hip", ["spine"] = "Mid", ["chest"] = "AimJoint", ["upperChest"] = "Torso", ["head"] = "Head",
+            ["leftUpperLeg"] = "Leg_L", ["leftLowerLeg"] = "Knee_L", ["leftFoot"] = "Foot_L", ["leftToes"] = "S_Toe_1_L",
+            ["rightUpperLeg"] = "Leg_R", ["rightLowerLeg"] = "Knee_R", ["rightFoot"] = "Foot_R", ["rightToes"] = "S_Toe_1_R",
+            ["leftShoulder"] = "S_Shoulder_L", ["leftUpperArm"] = "Arm_L", ["leftLowerArm"] = "Elbow_L", ["leftHand"] = "Hand_L",
+            ["rightShoulder"] = "S_Shoulder_R", ["rightUpperArm"] = "Arm_R", ["rightLowerArm"] = "Elbow_R", ["rightHand"] = "Hand_R",
+            ["leftThumbMetacarpal"] = "Thumb_1_L", ["leftThumbProximal"] = "Thumb_2_L", ["leftThumbDistal"] = "Thumb_3_L",
+            ["leftIndexProximal"] = "Index_1_L", ["leftIndexIntermediate"] = "Index_2_L", ["leftIndexDistal"] = "Index_3_L",
+            ["leftMiddleProximal"] = "Middle_1_L", ["leftMiddleIntermediate"] = "Middle_2_L", ["leftMiddleDistal"] = "Middle_3_L",
+            ["leftLittleProximal"] = "Pinky_1_L", ["leftLittleIntermediate"] = "Pinky_2_L", ["leftLittleDistal"] = "Pinky_3_L",
+            ["rightThumbMetacarpal"] = "Thumb_R_1", ["rightThumbProximal"] = "Thumb_R_2", ["rightThumbDistal"] = "Thumb_R_3",
+            ["rightIndexProximal"] = "Index_1_R", ["rightIndexIntermediate"] = "Index_2_R", ["rightIndexDistal"] = "Index_3_R",
+            ["rightMiddleProximal"] = "Middle_1_R", ["rightMiddleIntermediate"] = "Middle_2_R", ["rightMiddleDistal"] = "Middle_3_R",
+            ["rightLittleProximal"] = "Pinky_1_R", ["rightLittleIntermediate"] = "Pinky_2_R", ["rightLittleDistal"] = "Pinky_3_R",
+        };
 
         /// <summary>On a wall, a rope or a vine.</summary>
         public static bool Climbing

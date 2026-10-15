@@ -4,3 +4,4 @@ GameDir.props.user
 astra-gi.zip
 bepinex-dist/
 nuget-local/
+.nuget-local-cache/
