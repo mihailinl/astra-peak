@@ -32,8 +32,8 @@ env:
   # The foundation's Mono DLLs come from its runner release ("Astra for any Unity game"), whose zip
   # root holds BepInEx/plugins/Astra/ — exactly the layout tools/make-astra-gi.sh reads. Bump both
   # lines together when this integration moves to a newer foundation.
-  FOUNDATION_ASSET_URL: "https://github.com/mihailinl/astra-bepinex/releases/download/v0.8.0/astra-gi.zip"
-  FOUNDATION_ASSET_SHA256: "b0fdb6780cdb57582f99f954f17dc31c6a3deb5066355817192e308929082fa6"
+  FOUNDATION_ASSET_URL: "https://github.com/mihailinl/astra-bepinex/releases/download/v0.8.1/astra-gi.zip"
+  FOUNDATION_ASSET_SHA256: "1ea3ef142e718afeffc9bbbc9dfab12e04a14d657d97524d9e7ba2225789a687"
 
 jobs:
   release:

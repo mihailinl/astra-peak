@@ -17,13 +17,13 @@
     <Nullable>disable</Nullable>
     <BepInExPluginGuid>astra.peak</BepInExPluginGuid>
     <BepInExPluginName>Astra for PEAK</BepInExPluginName>
-    <Version>0.3.0</Version>
+    <Version>0.3.1</Version>
     <SteamAppId>3527290</SteamAppId>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     <!-- The SDK this builds against: CaptureWhile is new in 0.8.0 (DeclareParam in 0.7.0). Built
          against it, AstraSdk.Dependency makes BepInEx refuse to load this plugin beside an older
-         foundation. 0.8.0 is not released yet (README, "Build against a local SDK"); a local build
-         may pass -p:AstraSdkVersion=0.8.0-dev. -->
+         foundation. The bundled foundation is 0.8.1 (release.yml FOUNDATION_ASSET_URL): 0.8.0 blacks
+         out Unity 6000.3 URP games such as PEAK. -->
     <AstraSdkVersion Condition="'$(AstraSdkVersion)' == ''">[0.8.0,1)</AstraSdkVersion>
   </PropertyGroup>
   <!-- This machine only (git ignores it): the Astra SDK's LOCAL feed, for building against an
